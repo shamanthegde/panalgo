@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html >
+<head>
+    <title>Panalgo.io</title>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/png" href="favicon.ico">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <meta name="viewport" content="width=device-width" />
+
+    <link rel="stylesheet" href="css/application.css">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/datatables.css">
+    <link rel="stylesheet" href="css/dev-dashboard.css">
+    <link rel="stylesheet" href="css/fontawesome.css">
+    <link rel="stylesheet" href="css/roboto.css">
+    <link rel="stylesheet" href="css/select.css">
+    <link rel="stylesheet" href="css/style.css">
+
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script>-->
+
+    <!--<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>-->
+
+
+    <script src="js/application.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/cable.js"></script>
+    <script src="js/datatables.js"></script>
+    <script src="js/dev-dashboard.js"></script>
+    <script src="js/highcharts.js"></script>
+    <script src="js/index.js"></script>
+    <script src="js/jquery.js"></script>
+    <script src="js/mainland.js"></script>
+    <script src="js/map.js"></script>
+    <script src="js/mootools.js"></script>
+    <script src="js/proj4.js"></script>
+    <script src="js/select.js"></script>
+
+    <script>
+        function readCookie(name) {
+            var nameEQ = name + "=";
+            var ca = document.cookie.split(';');
+            for(var i=0;i < ca.length;i++) {
+                var c = ca[i];
+                while (c.charAt(0)==' ') c = c.substring(1,c.length);
+                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+            }
+            return null;
+        }
+
+        function eraseCookie(name) {
+            createCookie(name,"",-1);
+        }
+
+        function getName() {
+            var name = readCookie('panalgo-user-name');
+            return name;
+        }
+
+        function getID() {
+            var id = readCookie('panalgo-user-id');
+            return id;
+        }
+
+        function logout() {
+            eraseCookie('panalgo-user-name');
+            eraseCookie('panalgo-user-id');
+        }
+
+        function create_alg() {
+            var name = $('input[name=name]').val();
+            var code = $('textarea[name=code]').val();
+            var user_id = getID();
+            var postData = {
+                name: name,
+                code: code,
+                user_id: user_id
+            };
+            $.post("http://pain-team.herokuapp.com/algorithm/create",
+                {
+                    name: name,
+                    code: code,
+                    user_id: user_id
+                })
+                .done(function(response){
+                    alert("Algorithm created successfully.");
+                    window.location.replace("dev-edit-alg.html");
+                }).fail(function(response) {
+                $('#create-error').html("Error: " + response.responseJSON.error);
+            });
+        }
+
+        $(document).ready(function() {
+            $('.dev-name').html(getName());
+        });
+    </script>
+</head>
+
+<body>
+
+<div class="wrapper">
+    <div class="sidebar" data-color="purple">
+        <div class="sidebar-wrapper">
+            <div class="logo">
+                <a class="simple-text">
+                    PANALGO.IO
+                </a>
+            </div>
+
+            <ul class="nav">
+
+                <li class="active"><a href="dev-create-alg.html">Create/Upload Algorithm</a></li>
+                <li><a href="dev-edit-alg.html">Edit/Manage Algorithms</a></li>
+                <li><a href="dev-get-train.html">Get Training Data</a></li>
+
+            </ul>
+        </div>
+    </div>
+
+    <div class="main-panel">
+        <nav class="navbar fixed-top navbar-default navbar-fixed">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="navigation-example-2">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div class="collapse navbar-collapse">
+
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="dev-dashboard.html" onclick="getName()">
+                                <p class="dev-name">[Insert Developer Name]</p>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="home.html" onclick="logout()">
+                                <p>Log out</p>
+                            </a>
+                        </li>
+                        <li class="separator hidden-lg hidden-md"></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+
+        <div class="content">
+            <div class="container-fluid">
+                <h1>Create / Upload Algorithm</h1>
+            </div>
+            <div id="create-error" style="color:red"></div>
+            <div>
+                <input type="text" name="name" placeholder="Algorithm Name" required="required" id="create-alg" />
+                <textarea type="text" name="code" placeholder="Put the algorithm code here" required="required"></textarea>
+                <br><br>
+                <button class="btn btn-primary btn-block btn-large" onclick="create_alg()">Submit Algorithm</button>
+            </div>
+
+            <br><br>
+
+            <footer class="footer">
+                <div class="container-fluid">
+                    <p class="copyright pull-right">
+                        &copy; <script>document.write(new Date().getFullYear())</script> Panalgo.io
+                    </p>
+                </div>
+            </footer>
+        </div>
+    </div>
+</div>
+</body>
+</html>
