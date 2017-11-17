@@ -64,7 +64,7 @@
         }
 
         function populate_text_area() {
-            $.get("http://pain-team.herokuapp.com/train_data")
+            $.get("http://pain-team.herokuapp.com/train_data/migraine")
                 .fail(function(response) {
 //                    alert(response);
                     var train_data = response.responseText;
@@ -92,9 +92,9 @@
 
             <ul class="nav">
 
-                <li><a href="dev-create-alg.html">Create/Upload Algorithm</a></li>
-                <li><a href="dev-edit-alg.html">Edit/Manage Algorithms</a></li>
-                <li class="active"><a href="dev-get-train.html">Get Training Data</a></li>
+                <li><a href="dev-create-alg-migraine.html">Create/Upload Algorithm</a></li>
+                <li><a href="dev-edit-alg-migraine.html">Edit/Manage Algorithms</a></li>
+                <li class="active"><a href="dev-get-train-migraine.html">Get Training Data</a></li>
 
             </ul>
         </div>
@@ -115,8 +115,18 @@
 
 
                     <ul class="nav navbar-nav navbar-right">
+                     <li>
+                        <a href="dev-get-train-cerv.html">
+                            <p>Cervical Cancer</p>
+                        </a>
+                    </li>
+                  <li>
+                        <a href="dev-get-train-migraine.html">
+                            <p><strong>Migraine</strong></p>
+                        </a>
+                    </li>
                         <li>
-                            <a href="dev-dashboard.html" onclick="getName()">
+                            <a href="dev-dashboard-migraine.html" onclick="getName()">
                                 <p class="dev-name">[Insert Developer Name]</p>
                             </a>
                         </li>

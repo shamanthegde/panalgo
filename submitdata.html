@@ -17,6 +17,7 @@
 <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/themes/base/jquery-ui.css" type="text/css">
 
 <style>
+
 	/* The switch - the box around the slider */
 	.switch {
 		position: relative;
@@ -91,6 +92,44 @@
 <script type="text/javascript" src="js/select.js"></script>
  
 
+<script>
+
+var mainrisk = readCookie("mainrisk");
+
+var hinselmann = readCookie("hinselmann");
+
+var schiller = readCookie("schiller");
+
+var cytology = readCookie("cytology");
+
+var biopsy = readCookie("biopsy");
+
+function generateCookie(name,value,days=80) {
+    var expires = "";
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days*24*60*60*1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + value + expires + "; path=/";
+}
+
+function readCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+    }
+    return null;
+}
+
+function eraseCookie(name) {
+    createCookie(name,"",-1);
+}
+
+</script>
   </head>
 
   <body>
@@ -105,9 +144,9 @@
 
             <ul class="nav">
                
-    <li><a href="dashboard.html">Dashboard</a></li>
+    <li><a href="dashboard.html">My Profile</a></li>
 
-    <li class="active"><a href="submitdata.html">Submit Data</a></li>
+    <li class="active"><a href="submitdata.html">Results</a></li>
  
         </ul>
     </div>
@@ -128,6 +167,16 @@
 
 
                 <ul class="nav navbar-nav navbar-right">
+                <li>
+                        <a href="dashboard.html">
+                            <p><strong>Cervical Cancer</strong></p>
+                        </a>
+                    </li>
+                  <li>
+                        <a href="migraine.html">
+                            <p>Migraine</p>
+                        </a>
+                    </li>
                     <li>
                         <a href="home.html" onclick="logout()">
                             <p>Log out</p>
@@ -144,98 +193,119 @@
     <div class="content">
         <div class="container-fluid">
 
-
-
        
     <!-- Table Row -->
         <div class="row">
             <div class="container-fluid" align="center">
 
-<h3 class="title" align="center"><strong>Data Entry Form</strong></h2>
+			<h3 class="title" align="center"><strong>Results</strong></h2>
             <div id="map1" class="card ">
                     <div class="header">
-                        <h4 class="title">Please Enter Your Recent Risk Factor History</h4>
+                        <h4 class="title">Predictive Suggestions</h4>
 		                        <div class="content">
-			                        <p class="category"><br></p>
-			                        <p class="category"> </p>
-			                   
-		                		</div>
-		                		<div class="content">
-			                        <p class="category">1. Please enter your current perceived stress level</p>
-			                        <p class="category"> </p>
-			                        <div id="stress"></div>
+			                        <p class="category"  style="color:black"><br>Based on the information provided and our most accurate  predictive algorithm, your cervical cancer risk is:<b> <script type="text/javascript">
+        document.write(mainrisk)
+      </script></b></p>
+       <p class="category"  style="color:black"><br>This risk assessment is based on data analysis with respect to four diagnostic tests:</p>
+        <p class="category"  style="color:black"><br>Hinselmann Test: <b> <script type="text/javascript">
+        document.write(hinselmann)
+      </script></b></p>
+       <p class="category"  style="color:black"><br>Schiller Test: <b> <script type="text/javascript">
+        document.write(schiller)
+      </script></b></p>
+      <p class="category"  style="color:black"><br>Cytology: <b> <script type="text/javascript">
+        document.write(cytology)
+      </script></b></p>
 
-									<p class="category"><span id="stress-value"></span></p>
-			                   
-		                		</div>
-		                		<div class="content">
-			                        <p class="category"><br>2. Please enter your current perceived anxiety level</p>
+      <p class="category"  style="color:black"><br>Biopsy: <b> <script type="text/javascript">
+        document.write(biopsy)
+      </script></b></p>
 			                        <p class="category"> </p>
-			                        <div id="anxiety"></div>
+			           
+		                		</div>
+		                		<hr>
+                                 <h4 class="title">Follow-Up</h4>
+                               
+                                 <div class="content" align="center">
+                                  <p class="category"  style="color:black"><br>We recommend that you ask your doctor about cervical cancer screening.</p>
+		                		</div>
 
-									<p class="category"><span id="anxiety-value"></span></p>
-			                   
-		                		</div>
-		                		<div class="content">
-			                        <p class="category"><br>3. How many hours of sleep did you get last night? </p>
-			                        <p class="category"> </p>
-			                        <input id="sleep" type="number">
-			                   
-		                		</div>
-		                		
 		                		<div class="content" align="center">
-			                        <p class="category"  align="center"><br>4. Have you had ANY chocolate today?</p>
-			                         <p class="category"  align="center">
-			                        	<label class="switch" style="background-color: white !important;">
-										  <input id="chocolate" type="checkbox">
-										  <span class="slider round"></span>
-										</label>
-									 </p>
-		                		</div>
-		                		<div class="content">
-			                        <p class="category"><br>5. Have you had ANY cheese today?</p>
-			                        <p class="category"  align="center">
-			                        	<label class="switch" style="background-color: white !important;">
-										  <input id="cheese" type="checkbox">
-										  <span class="slider round"></span>
-										</label>
-									</p>
-			                   
-		                		</div>
-		                		<div class="content">
-			                        <p class="category"><br>6. Have you experienced a sinus flare-up today?</p>
-			                       <p class="category"  align="center">
-			                        	<label class="switch" style="background-color: white !important;">
-										  <input id="sinus" type="checkbox">
-										  <span class="slider round"></span>
-										</label>
-									</p>
-			                   
-		                		</div>
-		                		<div class="content">
-			                        <p class="category"><br>7. Have you had any caffeine today? </p>
-			                        <p class="category"  align="center">
-			                        	<label class="switch" style="background-color: white !important;">
-										  <input id="caffeine" type="checkbox">
-										  <span class="slider round"></span>
-										</label>
-									</p>
-			                   
-		                		</div>
-		                		<div class="content">
-			                        <p class="category"><br>8. Have you skipped any meal(s) today? </p>
-			                        <p class="category"  align="center">
-			                        	<label class="switch" style="background-color: white !important;">
-										  <input id="skippedmeals" type="checkbox">
-										  <span class="slider round"></span>
-										</label>
-									</p>
-			                   
-		                		</div>
-		                		<div class="content">
-			                        <button class="btn btn-primary" id="mainsubmit" type="button" onclick="$('#popup').modal('show');">Upload and Run Algorithm</button>
-			                   
-		                		</div>
+                                    <p class="category"  align="center"  style="color:black"><br>If you did follow up with your doctor and underwent screening, please indicate your diagnoses below. We recommend you do this as a way of giving back to the community as it will help us imrprove our algorithms.</p>
+                                </div>
+
+                                <div class="content" align="center">
+                                    <p class="category"  align="center"  style="color:black"><br>Hinselmann Test</p>
+                                    
+                                     <p class="category"  align="center"> </p>
+                                        <label class="switch" style="background-color: white !important;">
+                                          <input id="smoke" type="checkbox">
+                                          <span class="slider round"></span>
+                                        </label>
+                                    
+                                </div>
+                                  <div class="content">
+                                    <p class="category"><br></p>
+                                    <p class="category"> </p>
+                               
+                                </div>
+                                  <div class="content" align="center">
+                                    <p class="category"  align="center"  style="color:black"><br>Schiller Test</p>
+                                    
+                                     <p class="category"  align="center"> </p>
+                                        <label class="switch" style="background-color: white !important;">
+                                          <input id="smoke" type="checkbox">
+                                          <span class="slider round"></span>
+                                        </label>
+                                    
+                                </div>
+                                  <div class="content">
+                                    <p class="category"><br></p>
+                                    <p class="category"> </p>
+                               
+                                </div>
+                                  <div class="content" align="center">
+                                    <p class="category"  align="center"  style="color:black"><br>Cytology</p>
+                                    
+                                     <p class="category"  align="center"> </p>
+                                        <label class="switch" style="background-color: white !important;">
+                                          <input id="smoke" type="checkbox">
+                                          <span class="slider round"></span>
+                                        </label>
+                                    
+                                </div>
+                                  <div class="content">
+                                    <p class="category"><br></p>
+                                    <p class="category"> </p>
+                               
+                                </div>
+                                  <div class="content" align="center">
+                                    <p class="category"  align="center"  style="color:black"><br>Biopsy</p>
+                                    
+                                     <p class="category"  align="center"> </p>
+                                        <label class="switch" style="background-color: white !important;">
+                                          <input id="smoke" type="checkbox">
+                                          <span class="slider round"></span>
+                                        </label>
+                                    
+                                </div>
+                                  <div class="content">
+                                    <p class="category"><br></p>
+                                    <p class="category"> </p>
+                               
+                                </div>
+
+
+                                  <div class="content">
+                                    <p class="category"><br></p>
+                                    <p class="category"> </p>
+                               
+                                </div>
+
+                                <div class="content">
+                                     <button class="btn btn-primary" id="mainsubmit" type="button" onclick="location.href='submitdata.html';">Submit Test Results</button>
+                               
+                                </div>
 
                     </div>
                   
@@ -257,125 +327,12 @@
 
 
 
-<footer class="footer">
-    <div class="container-fluid">
 
-    </div>
-</footer>
 </div>
 		</div>
-		<div class="modal fade" id="popup">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title">Result</h5>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-					<div class="modal-body">
-						<p>Your Migraine Prediction in a 5-hour window is: <span id="prediction-result"></span></p>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-primary"><a href="dashboard.html">Okay</a></button>
-					</div>
-				</div>
-			</div>
-		</div>
+		
+		
   </body>
 
 
 </html>
-<script>
-
-var stressval = 0;
-var anxietyval = 0;
-
-$("#stress").slider(
-{
-            value:0,
-            min: 0,
-            max: 100,
-            step: 10,
-            slide: function( event, ui ) {
-                $( "#stress-value" ).html( ui.value );
-                stressval = ui.value;
-            }
-}
-);
-
-$( "#stress-value" ).html(  $('#stress').slider('value') );
-
-$("#anxiety").slider(
-{
-            value:0,
-            min: 0,
-            max: 100,
-            step: 10,
-            slide: function( event, ui ) {
-                $( "#anxiety-value" ).html( ui.value );
-                anxietyval = ui.value;
-            }
-}
-);
-
-$( "#anxiety-value" ).html(  $('#anxiety').slider('value') );
-
-
-
-$('#mainsubmit').on('click', function(){
-
-var chocolateval = $('#chocolate:checked').val() == "on";
-var cheeseval = $('#cheese:checked').val() == "on";
-
-var sinusval = $('#sinus:checked').val() == "on";
-
-var caffeineval = $('#caffeine:checked').val() == "on";
-
-var skippedmealsval = $('#skippedmeals:checked').val() == "on";
-
-	$.post( "http://pain-team.herokuapp.com/report", 
-		{ 
-			user_id: 1, 
-			stress: stressval,
-			anxiety: anxietyval,
-			sleep_time: 8,
-			chocolate: chocolateval,
-			cheese: cheeseval,
-			sinus: sinusval,
-			caffeine: caffeineval,
-			skipped_meal: skippedmealsval
-	},
-	function(result){
-
-//    $("#popup").css("display", "block");
-    var res;
-    if(result.result)
-    	res = "High Risk";
-    else
-    	res = "Safe";
-     
-    $("#prediction-result").html(res);
-
-
-//  $("#close_popup").click(function(){
-//    $("#popup").css("display", "none");
-//  });
-
-	}
-	);
-});
-
-function eraseCookie(name) {
-    createCookie(name,"",-1);
-}
-
-function logout() {
-    eraseCookie('panalgo-user-name');
-    eraseCookie('panalgo-user-id');
-}
-</script>
-
-
-
-

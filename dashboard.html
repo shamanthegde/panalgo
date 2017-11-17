@@ -7,36 +7,96 @@
       <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
       <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
       <meta name="viewport" content="width=device-width" />
-
-      <link rel="stylesheet" href="css/bootstrap.css" type="text/css">
+  <link rel="stylesheet" href="css/bootstrap.css" type="text/css">
 <link rel="stylesheet" href="css/dashboard.css" type="text/css">
 <link rel="stylesheet" href="css/datatables.css" type="text/css">
 <link rel="stylesheet" href="css/fontawesome.css" type="text/css">
 <link rel="stylesheet" href="css/roboto.css" type="text/css">
 <link rel="stylesheet" href="css/select.css" type="text/css">
-<script src="//code.jquery.com/jquery-1.10.2.js"></script>
-<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/themes/base/jquery-ui.css" type="text/css">
+
+<style>
+    /* The switch - the box around the slider */
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+    }
+
+
+    /* Hide default HTML checkbox */
+    .switch input {display:none;}
+
+    /* The slider */
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+    input:checked + .slider {
+        background-color: #2196F3;
+    }
+
+    input:focus + .slider {
+        box-shadow: 0 0 1px #2196F3;
+    }
+
+    input:checked + .slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+    }
+
+    /* Rounded sliders */
+    .slider.round {
+        border-radius: 34px;
+    }
+
+    .slider.round:before {
+        border-radius: 50%;
+    }
+</style>
+<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 <script type="text/javascript" src="js/application.js"></script>
 <script type="text/javascript" src="js/bootstrap.js"></script>
 <script type="text/javascript" src="js/cable.js"></script>
 <script type="text/javascript" src="js/dashboard.js"></script>
 <script type="text/javascript" src="js/datatables.js"></script>
+<script type="text/javascript" src="js/highcharts.js"></script>
 <script type="text/javascript" src="js/mainland.js"></script>
 <script type="text/javascript" src="js/map.js"></script>
 <script type="text/javascript" src="js/mootools.js"></script>
 <script type="text/javascript" src="js/proj4.js"></script>
 <script type="text/javascript" src="js/select.js"></script>
-<script src="https://code.highcharts.com/highcharts.js"></script>
-<script src="https://code.highcharts.com/modules/series-label.js"></script>
-
-
  
 
   </head>
 
   <body>
         <div class="wrapper">
-        <div class="sidebar" data-color="purple" data-image="assets/images/sidebar-5.jpg">
+        <div class="sidebar" data-color="purple">
             <div class="sidebar-wrapper">
                 <div class="logo">
                  <a href="home.html" class="simple-text">        
@@ -46,9 +106,9 @@
 
             <ul class="nav">
                
-    <li class="active"><a href="dashboard.html">Dashboard</a></li>
+    <li class="active"><a href="dashboard.html">My Profile</a></li>
 
-    <li><a href="submitdata.html">Submit Data</a></li>
+    <li><a href="submitdata.html">Results</a></li>
  
         </ul>
     </div>
@@ -64,12 +124,21 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#"><img src="assets/logo.png" alt=""></a>
             </div>
             <div class="collapse navbar-collapse">
 
 
                 <ul class="nav navbar-nav navbar-right">
+                 <li>
+                        <a href="dashboard.html">
+                            <p><strong>Cervical Cancer</strong></p>
+                        </a>
+                    </li>
+                  <li>
+                        <a href="migraine.html">
+                            <p>Migraine</p>
+                        </a>
+                    </li>
                     <li>
                         <a href="home.html" onclick="logout()">
                             <p>Log out</p>
@@ -82,62 +151,475 @@
     </nav>
 
 
- 
+    
     <div class="content">
-<h3 class="title" align="center"><strong>Patient Dashboard</strong></h2>
         <div class="container-fluid">
-         <div id="item1" class="row">
-            <div class="container-fluid" align="center">
-            <div id="map1" class="card ">
-                    <div class="header">
-                        <h4 class="title">Stress and Anxiety Levels Over Time</h4>
-                    
-                    </div>
-                    <div class="content">
-               <div id="sal1"></div>
-                    </div>
-                </div>
 
-            </div>
-           
-        </div>
+
+
+       
     <!-- Table Row -->
-        <div id="item2"  class="row">
+        <div class="row">
             <div class="container-fluid" align="center">
+
+<h3 class="title" align="center"><strong>My Profile</strong></h2>
             <div id="map1" class="card ">
                     <div class="header">
-                        <h4 class="title">Hours of Sleep Over Time</h4>
-                    
-                    </div>
-                    <div class="content">
-               <div id="sal2"></div>
-                    </div>
-                </div>
 
+                        <h4 class="title"><strong>General Information and Sexual History<strong></h4>
+                               
+                                <div class="content">
+                                    <p class="category">How old are you?</p>
+                                    <p class="category"> </p>
+                                    <div id="age"></div>
+
+                                    <p class="category"><span id="age-value"></span></p>
+                               
+                                </div>
+                                <div class="content">
+                                    <p class="category"><br>At what age did you first have sexual intercourse?</p>
+                                    <p class="category"> </p>
+                                    <div id="first"></div>
+
+                                    <p class="category"><span id="first-value"></span></p>
+                               
+                                </div>
+                                <div class="content">
+                                    <p class="category"><br>How many sexual partners have you had so far? </p>
+                                    <div id="numsexual"></div>
+
+                                    <p class="category"><span id="numsexual-value"></span></p>
+                               
+                                </div>
+
+                                 <div class="content">
+                                    <p class="category"><br>How many pregnancies have you had so far? </p>
+                                    <div id="pregnancies"></div>
+
+                                    <p class="category"><span id="pregnancies-value"></span></p>
+                               
+                                </div>
+                                  <div class="content">
+                                    <p class="category"><br></p>
+                                    <p class="category"> </p>
+                               
+                                </div>
+                                <hr>
+                                 <h4 class="title"><strong>Smoking History</strong></h4>
+                               
+                                 <div class="content" align="center">
+                                    <p class="category"  align="center"><br>Do you smoke?</p>
+
+                                     <p class="category"  align="center"> </p>
+                                        <label class="switch" style="background-color: white !important;">
+                                          <input id="smoke" type="checkbox">
+                                          <span class="slider round"></span>
+                                        </label>
+                                    
+                                </div>
+                                  <div class="content">
+                                    <p class="category"><br></p>
+                                    <p class="category"> </p>
+                               
+                                </div>
+
+                                <div class="content">
+                                    <p class="category">How many years, in total, have you smoked? Please enter '0' if you have never smoked.</p>
+                                    <p class="category"> </p>
+                                    <div id="smokeyears"></div>
+
+                                    <p class="category"><span id="smokeyears-value"></span></p>
+                               
+                                </div>
+
+                                 <div class="content">
+                                    <p class="category">On average, how many cigarettes do you have / did you have per day?</p>
+                                    <p class="category"> </p>
+                                    <div id="smokepacksperday"></div>
+
+                                    <p class="category"><span id="smokepacksperday-value"></span></p>
+                               
+                                </div>
+
+                                <div class="content">
+                                    <p class="category"><br></p>
+                                    <p class="category"> </p>
+                               
+                                </div>
+                                <hr>
+                                 <h4 class="title"><strong>Contraceptive Usage</strong></h4>
+                               
+                                <div class="content" align="center">
+                                    <p class="category"  align="center"><br>Have you ever used an intrauterine device (IUD) ?</p>
+                                     <p class="category"  align="center">
+                                        <label class="switch" style="background-color: white !important;">
+                                          <input id="iud" type="checkbox">
+                                          <span class="slider round"></span>
+                                        </label>
+                                     </p>
+                                </div>
+                                  <div class="content">
+                                    <p class="category"><br></p>
+                                    <p class="category"> </p>
+                               
+                                </div>
+
+                                <div class="content">
+                                    <p class="category">How many years, in total, have you used intrauterine devices (IUDs)?</p>
+                                    <p class="category"> </p>
+                                    <div id="iudyears"></div>
+
+                                    <p class="category"><span id="iudyears-value"></span></p>
+                               
+                                </div>
+                                <div class="content" align="center">
+                                    <p class="category"  align="center"><br>Have you ever used hormonal contraceptives?</p>
+                                     <p class="category"  align="center">
+                                        <label class="switch" style="background-color: white !important;">
+                                          <input id="hormonal" type="checkbox">
+                                          <span class="slider round"></span>
+                                        </label>
+                                     </p>
+                                </div>
+                                  <div class="content">
+                                    <p class="category"><br></p>
+                                    <p class="category"> </p>
+                               
+                                </div>
+
+                                <div class="content">
+                                    <p class="category">How many years, in total, have you used hormonal contraceptives?</p>
+                                    <p class="category"> </p>
+                                    <div id="hormonalyears"></div>
+
+                                    <p class="category"><span id="hormonalyears-value"></span></p>
+                               
+                                </div>
+
+                                 <div class="content">
+                                    <p class="category"><br></p>
+                                    <p class="category"> </p>
+                               
+                                </div>
+                                <hr>
+                                 <h4 class="title"><strong>Sexually Transmitted Diseases</strong></h4>
+                               
+
+                                 <div class="content" align="center">
+                                    <p class="category"  align="center"><br>Have you ever been diagnosed with any sexually transmitted disease(s)?</p>
+                                     <p class="category"  align="center">
+                                        <label class="switch" style="background-color: white !important;">
+                                          <input id="std" type="checkbox">
+                                          <span class="slider round"></span>
+                                        </label>
+                                     </p>
+                                </div>
+                                  <div class="content">
+                                    <p class="category"><br></p>
+                                    <p class="category"> </p>
+                               
+                                </div>
+
+                                <div class="content">
+                                    <p class="category">How many types of STDs have you had (in total)?</p>
+                                    <p class="category"> </p>
+                                    <div id="stdnum"></div>
+
+                                    <p class="category"><span id="stdnum-value"></span></p>
+                               
+                                </div>
+
+                                <div class="content" align="center">
+                                    <p class="category"  align="center"><br>Have you ever been diagnosed with condylomatosis?</p>
+                                     <p class="category"  align="center">
+                                        <label class="switch" style="background-color: white !important;">
+                                          <input id="condylomatosis" type="checkbox">
+                                          <span class="slider round"></span>
+                                        </label>
+                                     </p>
+                                </div>
+                                  <div class="content">
+                                    <p class="category"><br></p>
+                                    <p class="category"> </p>
+                               
+                                </div>
+                                <div class="content" align="center">
+                                    <p class="category"  align="center"><br>Have you ever been diagnosed with cervical condylomatosis?</p>
+                                     <p class="category"  align="center">
+                                        <label class="switch" style="background-color: white !important;">
+                                          <input id="cervicalcondylomatosis" type="checkbox">
+                                          <span class="slider round"></span>
+                                        </label>
+                                     </p>
+                                </div>
+                                  <div class="content">
+                                    <p class="category"><br></p>
+                                    <p class="category"> </p>
+                               
+                                </div>
+                                <div class="content" align="center">
+                                    <p class="category"  align="center"><br>Have you ever been diagnosed with vaginal condylomatosis?</p>
+                                     <p class="category"  align="center">
+                                        <label class="switch" style="background-color: white !important;">
+                                          <input id="vaginalcondylomatosis" type="checkbox">
+                                          <span class="slider round"></span>
+                                        </label>
+                                     </p>
+                                </div>
+                                  <div class="content">
+                                    <p class="category"><br></p>
+                                    <p class="category"> </p>
+                               
+                                </div>
+                                <div class="content" align="center">
+                                    <p class="category"  align="center"><br>Have you ever been diagnosed with vulvo-perineal condylomatosis?</p>
+                                     <p class="category"  align="center">
+                                        <label class="switch" style="background-color: white !important;">
+                                          <input id="vpcondylomatosis" type="checkbox">
+                                          <span class="slider round"></span>
+                                        </label>
+                                     </p>
+                                </div>
+                                  <div class="content">
+                                    <p class="category"><br></p>
+                                    <p class="category"> </p>
+                               
+                                </div>
+                                 <div class="content" align="center">
+                                    <p class="category"  align="center"><br>Have you ever been diagnosed with syphilis?</p>
+                                     <p class="category"  align="center">
+                                        <label class="switch" style="background-color: white !important;">
+                                          <input id="syphilis" type="checkbox">
+                                          <span class="slider round"></span>
+                                        </label>
+                                     </p>
+                                </div>
+                                  <div class="content">
+                                    <p class="category"><br></p>
+                                    <p class="category"> </p>
+                               
+                                </div>
+                                <div class="content" align="center">
+                                    <p class="category"  align="center"><br>Have you ever been diagnosed with pelvic inflammatory disease?</p>
+                                     <p class="category"  align="center">
+                                        <label class="switch" style="background-color: white !important;">
+                                          <input id="pid" type="checkbox">
+                                          <span class="slider round"></span>
+                                        </label>
+                                     </p>
+                                </div>
+                                  <div class="content">
+                                    <p class="category"><br></p>
+                                    <p class="category"> </p>
+                               
+                                </div>
+                                <div class="content" align="center">
+                                    <p class="category"  align="center"><br>Have you ever been diagnosed with genital herpes?</p>
+                                     <p class="category"  align="center">
+                                        <label class="switch" style="background-color: white !important;">
+                                          <input id="genitalherpes" type="checkbox">
+                                          <span class="slider round"></span>
+                                        </label>
+                                     </p>
+                                </div>
+                                  <div class="content">
+                                    <p class="category"><br></p>
+                                    <p class="category"> </p>
+                               
+                                </div>
+                                <div class="content" align="center">
+                                    <p class="category"  align="center"><br>Have you ever been diagnosed with molluscum contagiosum?</p>
+                                     <p class="category"  align="center">
+                                        <label class="switch" style="background-color: white !important;">
+                                          <input id="mc" type="checkbox">
+                                          <span class="slider round"></span>
+                                        </label>
+                                     </p>
+                                </div>
+                                  <div class="content">
+                                    <p class="category"><br></p>
+                                    <p class="category"> </p>
+                               
+                                </div>
+                                <div class="content" align="center">
+                                    <p class="category"  align="center"><br>Have you ever been diagnosed with AIDS?</p>
+                                     <p class="category"  align="center">
+                                        <label class="switch" style="background-color: white !important;">
+                                          <input id="aids" type="checkbox">
+                                          <span class="slider round"></span>
+                                        </label>
+                                     </p>
+                                </div>
+                                  <div class="content">
+                                    <p class="category"><br></p>
+                                    <p class="category"> </p>
+                               
+                                </div>
+                                <div class="content" align="center">
+                                    <p class="category"  align="center"><br>Have you ever been diagnosed with HIV?</p>
+                                     <p class="category"  align="center">
+                                        <label class="switch" style="background-color: white !important;">
+                                          <input id="hiv" type="checkbox">
+                                          <span class="slider round"></span>
+                                        </label>
+                                     </p>
+                                </div>
+                                  <div class="content">
+                                    <p class="category"><br></p>
+                                    <p class="category"> </p>
+                               
+                                </div>
+
+                                <div class="content" align="center">
+                                    <p class="category"  align="center"><br>Have you ever been diagnosed with Hepatitis B?</p>
+                                     <p class="category"  align="center">
+                                        <label class="switch" style="background-color: white !important;">
+                                          <input id="hepb" type="checkbox">
+                                          <span class="slider round"></span>
+                                        </label>
+                                     </p>
+                                </div>
+                                  <div class="content">
+                                    <p class="category"><br></p>
+                                    <p class="category"> </p>
+                               
+                                </div>
+
+                                  <div class="content" align="center">
+                                    <p class="category"  align="center"><br>Have you ever been diagnosed with HPV</p>
+                                     <p class="category"  align="center">
+                                        <label class="switch" style="background-color: white !important;">
+                                          <input id="hiv" type="checkbox">
+                                          <span class="slider round"></span>
+                                        </label>
+                                     </p>
+                                </div>
+                                  <div class="content">
+                                    <p class="category"><br></p>
+                                    <p class="category"> </p>
+                               
+                                </div>
+
+                                 <div class="content">
+                                    <p class="category">How many diagnoses of STDs have you had (in total)?</p>
+                                    <p class="category"> </p>
+                                    <div id="stddxnum"></div>
+
+                                    <p class="category"><span id="stddxnum-value"></span></p>
+                               
+                                </div>
+
+                                 <div class="content">
+                                    <p class="category">How many years has it been since your first STD diagnosis?</p>
+                                    <p class="category"> </p>
+                                    <div id="yearsfirstd"></div>
+
+                                    <p class="category"><span id="yearsfirstd-value"></span></p>
+                               
+                                </div>
+
+                                   <div class="content">
+                                    <p class="category">How many years has it been since your last STD diagnosis?</p>
+                                    <p class="category"> </p>
+                                    <div id="yearslastd"></div>
+
+                                    <p class="category"><span id="yearslastd-value"></span></p>
+                               
+                                </div>
+
+                                  <div class="content">
+                                    <p class="category"><br></p>
+                                    <p class="category"> </p>
+                               
+                                </div>
+                                <hr>
+                                 <h4 class="title"><strong>General Diagnoses</strong></h4>
+                                
+
+                                <div class="content" align="center">
+                                    <p class="category"  align="center"><br>Have you ever been diagnosed with cancer</p>
+                                     <p class="category"  align="center">
+                                        <label class="switch" style="background-color: white !important;">
+                                          <input id="dxcancer" type="checkbox">
+                                          <span class="slider round"></span>
+                                        </label>
+                                     </p>
+                                </div>
+                                  <div class="content">
+                                    <p class="category"><br></p>
+                                    <p class="category"> </p>
+                                     </div>
+
+                                     <div class="content" align="center">
+                                    <p class="category"  align="center"><br>Have you ever been diagnosed with cervical intraepithelial neoplasia (CIN)</p>
+                                     <p class="category"  align="center">
+                                        <label class="switch" style="background-color: white !important;">
+                                          <input id="dxcin" type="checkbox">
+                                          <span class="slider round"></span>
+                                        </label>
+                                     </p>
+                                </div>
+
+
+                                  <div class="content">
+                                    <p class="category"><br></p>
+                                    <p class="category"> </p>
+                                </div>
+
+                                     <div class="content" align="center">
+                                    <p class="category"  align="center"><br>Have you ever been diagnosed with HPV</p>
+                                     <p class="category"  align="center">
+                                        <label class="switch" style="background-color: white !important;">
+                                          <input id="dxhpv" type="checkbox">
+                                          <span class="slider round"></span>
+                                        </label>
+                                     </p>
+                                </div>
+
+
+                                  <div class="content">
+                                    <p class="category"><br></p>
+                                    <p class="category"> </p>
+                                </div>
+
+                                <div class="content" align="center">
+                                    <p class="category"  align="center"><br>Have you ever been diagnosed with cervical cancer</p>
+                                     <p class="category"  align="center">
+                                        <label class="switch" style="background-color: white !important;">
+                                          <input id="dx" type="checkbox">
+                                          <span class="slider round"></span>
+                                        </label>
+                                     </p>
+                                </div>
+
+
+                                  <div class="content">
+                                    <p class="category"><br></p>
+                                    <p class="category"> </p>
+                                </div>
+
+                                <div class="content">
+                                    <button class="btn btn-primary" id="mainsubmit" type="button">Upload and Run Algorithm</button>
+                               
+                                </div>
+                    </div>
+                  
+             </div>
+            
+             
             </div>
            
         </div>
         <!-- /.row -->  
-       <div id="item3"  class="row">
-            <div class="container-fluid" align="center">
-            <div id="map1" class="card ">
-                    <div class="header">
-                        <h4 class="title">Risk Factor History</h4>
-                    
-                    </div>
-                    <div class="content">
-               <div id="sal3"></div>
-                    </div>
-                </div>
 
-            </div>
-           
-        </div>
     </div>
 </div>
-
-</div>
-</div>
+  <!--<div id="popup">-->
+        <!--<h4>Results</h4>-->
+        <!--<p>Your Migraine Prediction in a 5-hour window is: <span id="prediction-result"></span></p>-->
+        <!--<a href="dashboard.html" id="close_popup">Close</a>-->
+    <!--</div>-->
+    <!--<a href="#popup" id="open_popup">Open popup</a>-->
 
 
 
@@ -146,154 +628,390 @@
 
     </div>
 </footer>
+</div>
+        </div>
+       
   </body>
 
 
 </html>
-
 <script>
-Highcharts.chart('sal1', {
-    chart: {
-        type: 'area'
-    },
-    title: {
-        text: ''
-    },
-   
-    xAxis: {
-        categories: ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30'],
-        tickmarkPlacement: 'on',
-        title: {
-            enabled: false
-        }
-    },
-    yAxis: {
-        title: {
-            text: '0-200 Scale (Additive Stress & Anxiety Score)'
-        }
-    },
-    tooltip: {
-        split: true,
-    },
-    plotOptions: {
-        area: {
-            stacking: 'normal',
-            lineColor: '#666666',
-            lineWidth: 1,
-            marker: {
-                enabled: false
+
+var ageval = 0;
+var firstval = 0;
+
+var numsexualval = 0;
+
+var pregnanciesval = 0;
+
+var smokeyearsval = 0;
+
+
+var smokepacksperdayval = 0;
+
+
+var iudyearsval = 0;
+
+var hormonalyearsval = 0;
+
+
+var stdnumval = 0;
+
+
+var stddxnumval = 0;
+
+
+var yearsfirstdval = 0;
+
+
+var yearslastdval = 0;
+
+$("#age").slider(
+{
+            value:0,
+            min: 0,
+            max: 100,
+            step: 1,
+            slide: function( event, ui ) {
+                $( "#age-value" ).html( ui.value );
+                ageval = ui.value;
             }
-        }
-    },
-    series: [{
-        name: 'Stress',
-        data: [28,27,2,13,65,23,65,10,21,63,27,10,91,26,54,27,14,48,8,85,17,78,90,34,92,23,44,54,18,8]
-    }, {
-        name: 'Anxiety',
-        data: [17,77,4,95,20,93,70,18,60,29,43,90,57,29,4,69,77,40,10,91,42,44,23,14,5,9,54,65,39,76]
-    }]
+}
+);
+
+$( "#age-value" ).html(  $('#age').slider('value') );
+
+
+$("#stddxnum").slider(
+{
+            value:0,
+            min: 0,
+            max: 100,
+            step: 1,
+            slide: function( event, ui ) {
+                $( "#stddxnum-value" ).html( ui.value );
+                stddxnumval = ui.value;
+            }
+}
+);
+
+$( "#stddxnum-value" ).html(  $('#stddxnum').slider('value') );
+
+
+$("#yearsfirstd").slider(
+{
+            value:0,
+            min: 0,
+            max: 100,
+            step: 1,
+            slide: function( event, ui ) {
+                $( "#yearsfirstd-value" ).html( ui.value );
+                yearsfirstdval = ui.value;
+            }
+}
+);
+
+$( "#yearsfirstd-value" ).html(  $('#yearsfirstd').slider('value') );
+
+
+$("#yearslastd").slider(
+{
+            value:0,
+            min: 0,
+            max: 100,
+            step: 1,
+            slide: function( event, ui ) {
+                $( "#yearslastd-value" ).html( ui.value );
+                yearslastdval = ui.value;
+            }
+}
+);
+
+$( "#yearslastd-value" ).html(  $('#yearslastd').slider('value') );
+
+$("#first").slider(
+{
+            value:0,
+            min: 0,
+            max: 100,
+            step: 1,
+            slide: function( event, ui ) {
+                $( "#first-value" ).html( ui.value );
+                firstval = ui.value;
+            }
+}
+);
+
+$( "#first-value" ).html(  $('#first').slider('value') );
+
+
+$("#numsexual").slider(
+{
+            value:0,
+            min: 0,
+            max: 40,
+            step: 1,
+            slide: function( event, ui ) {
+                $( "#numsexual-value" ).html( ui.value );
+                numsexualval = ui.value;
+            }
+}
+);
+
+
+$( "#numsexual-value" ).html(  $('#numsexual').slider('value') );
+
+$("#pregnancies").slider(
+{
+            value:0,
+            min: 0,
+            max: 25,
+            step: 1,
+            slide: function( event, ui ) {
+                $( "#pregnancies-value" ).html( ui.value );
+                pregnanciesval = ui.value;
+            }
+}
+);
+
+$( "#pregnancies-value" ).html(  $('#pregnancies').slider('value') );
+
+$("#smokeyears").slider(
+{
+            value:0,
+            min: 0,
+            max: 100,
+            step: 1,
+            slide: function( event, ui ) {
+                $( "#smokeyears-value" ).html( ui.value );
+               smokeyearsval = ui.value;
+            }
+}
+);
+
+$( "#smokeyears-value" ).html(  $('#smokeyears').slider('value') );
+
+
+$("#iudyears").slider(
+{
+            value:0,
+            min: 0,
+            max: 30,
+            step: 0.01,
+            slide: function( event, ui ) {
+                $( "#iudyears-value" ).html( ui.value );
+               iudyearsval = ui.value;
+            }
+}
+);
+
+$( "#iudyears-value" ).html(  $('#iudyears').slider('value') );
+
+$("#hormonalyears").slider(
+{
+            value:0,
+            min: 0,
+            max: 30,
+            step: 0.01,
+            slide: function( event, ui ) {
+                $( "#hormonalyears-value" ).html( ui.value );
+               hormonalyearsval = ui.value;
+            }
+}
+);
+
+$( "#hormonalyears-value" ).html(  $('#hormonalyears').slider('value') );
+
+$("#smokepacksperday").slider(
+{
+            value:0,
+            min: 0,
+            max: 40,
+            step: 0.1,
+            slide: function( event, ui ) {
+                $( "#smokepacksperday-value" ).html( ui.value );
+                smokepacksperdayval = ui.value;
+            }
+}
+);
+
+$( "#smokepacksperday-value" ).html(  $('#smokepacksperday').slider('value') );
+
+var smokepacksperyearval = smokepacksperdayval * 365 / 20;
+
+$("#stdnum").slider(
+{
+            value:0,
+            min: 0,
+            max: 10,
+            step: 1,
+            slide: function( event, ui ) {
+                $( "#stdnum-value" ).html( ui.value );
+                stdnumval = ui.value;
+            }
+}
+);
+
+$( "#stdnum-value" ).html(  $('#stdnum').slider('value') );
+
+$('#mainsubmit').on('click', function(){
+console.log('click!')
+var smokeval = $('#smoke:checked').val() == "on";
+
+var iudval = $('#iud:checked').val() == "on";
+
+var hormonalval = $('#hormonal:checked').val() == "on";
+
+
+var stdval = $('#std:checked').val() == "on";
+
+var condylomatosisval = $('#condylomatosis:checked').val() == "on";
+
+
+var cervicalcondylomatosisval = $('#cervicalcondylomatosis:checked').val() == "on";
+
+var vaginalcondylomatosisval = $('#vaginalcondylomatosis:checked').val() == "on";
+
+
+var vpcondylomatosisval = $('#vpcondylomatosis:checked').val() == "on";
+
+
+var syphilisval = $('#syphilis:checked').val() == "on";
+
+
+var pidval = $('#pid:checked').val() == "on";
+
+
+var genitalherpesval = $('#genitalherpes:checked').val() == "on";
+
+var mcval = $('#mc:checked').val() == "on";
+
+var aidsval = $('#aids:checked').val() == "on";
+
+
+var hivval = $('#hiv:checked').val() == "on";
+
+
+var hepbval = $('#hepb:checked').val() == "on";
+
+
+var hpvval = $('#hpv:checked').val() == "on";
+
+
+var dxcancerval = $('#dxcancer:checked').val() == "on";
+
+
+var dxcinval = $('#dxcin:checked').val() == "on";
+
+
+
+var dxhpvval = $('#dxhpv:checked').val() == "on";
+
+var dxval = $('#dx:checked').val() == "on";
+
+
+    $.post( "http://pain-team.herokuapp.com/report/cervical_cancer", 
+        { 
+            user_id: 1, 
+            age: ageval,
+            sexual_partners: numsexualval,
+            first_sex_age: firstval,
+            num_pregnancy: pregnanciesval,
+            smoker: smokeval,
+            smoke_years: smokeyearsval,
+            packs_a_year: smokepacksperyearval,
+            hormonal_contraceptive: hormonalval,
+            hormonal_contraceptive_years: hormonalyearsval,
+            iud: iudval,
+            iud_years: iudyearsval,
+            stds: stdval,
+            num_stds: stdnumval,
+            std_condylomatosis: condylomatosisval,
+            std_cervical_condylomatosis: cervicalcondylomatosisval,
+            std_vaginal_condylomatosis: vaginalcondylomatosisval,
+            std_vulvo_perineal_condylomatosis: vpcondylomatosisval,
+            std_syphilis: syphilisval,
+            std_pelvic_inflamatory_disease: pidval,
+            std_genital_herpes: genitalherpesval,
+            std_molluscum_contagiosum: mcval,
+            std_aids: aidsval,
+            std_hiv: hivval,
+            std_hepatitis_b: hepbval,
+            std_hpv: hpvval,
+            std_num_diagnosis: stddxnumval,
+            std_time_first_diagnosis: yearsfirstdval,
+            std_time_last_diagnosis: yearslastdval,
+            dx_cancer: dxcancerval,
+            dx_cin: dxcinval,
+            dx_hpv: dxhpvval,
+            dx: dxval
+    },).done(function(result) {
+            if(result.hinselmann){
+            hinselmann = "High Risk";
+            }
+            else{
+                hinselmann = "Low Risk";
+            }
+            if(result.schiller){
+            schiller = "High Risk";
+            }
+            else{
+                schiller = "Low Risk";
+            }
+            if(result.cytology){
+            cytology = "High Risk";
+            }
+            else{
+                cytology = "Low Risk";
+            }
+            if(result.biopsy){
+            biopsy = "High Risk";
+            }
+            else{
+                biopsy = "Low Risk";
+            }
+            mainrisk = false;
+            if(result.hinselmann || result.schiller || result.cytology || result.biopsy){
+                mainrisk = true;
+            }
+
+            console.log(hinselmann)
+            console.log(schiller)
+            console.log(cytology)
+            console.log(biopsy)
+            console.log(mainrisk)
+
+            generateCookie("hinselmann", hinselmann);
+            generateCookie("schiller", schiller);
+            generateCookie("cytology", cytology);
+            generateCookie("biopsy", biopsy);
+            generateCookie("mainrisk", mainrisk);
+
+            window.location.href = 'submitdata.html';
+
+        });
 });
-Highcharts.chart('sal2', {
-    chart: {
-        type: 'area'
-    },
-    title: {
-        text: ''
-    },
-   
-    xAxis: {
-        categories: ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30'],
-        tickmarkPlacement: 'on',
-        title: {
-            enabled: false
-        }
-    },
-    yAxis: {
-        title: {
-            text: 'Number of Hours'
-        }
-    },
-    legend: {
-        enabled: false
-    },
-    tooltip: {
-        split: true,
-    },
-    plotOptions: {
-        area: {
-            stacking: 'normal',
-            lineColor: '#666666',
-            lineWidth: 1,
-            marker: {
-                enabled: false
-            }
-        }
-    },
-    series: [{
-        name: 'Sleep',
-        data: [11,3,1,0,12,0,8,14,9,0,0,3,3,12,6,6,12,12,15,5,6,15,13,0,11,13,3,4,1,4]
-    }]
-});
-Highcharts.chart('sal3', {
-    chart: {
-        type: 'column'
-    },
-    title: {
-        text: ' '
-    },
-    xAxis: {
-        categories: ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30']
-    },
-    yAxis: {
-        min: 0,
-        title: {
-            text: 'Risk Factor Additive Score'
-        },
-        stackLabels: {
-            enabled: false,
-            style: {
-                fontWeight: 'bold',
-                color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
-            }
-        }
-    },
-    legend: {
-        align: 'right',
-        backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
-        borderColor: '#CCC',
-        borderWidth: 1,
-        shadow: false
-    },
-    tooltip: {
-        headerFormat: '<b>{point.x}</b><br/>',
-        pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
-    },
-    plotOptions: {
-        column: {
-            stacking: 'normal',
-            dataLabels: {
-                enabled: false,
-                color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
-            }
-        }
-    },
-    series: [{
-        name: 'Chocolate',
-        data: [1,0,1,1,1,0,1,0,1,0,1,0,0,1,1,1,0,1,0,0,1,0,0,0,1,0,1,0,0,0]
-    }, {
-        name: 'Cheese',
-        data: [1,1,0,1,1,0,0,0,0,0,0,1,0,1,1,1,1,1,0,0,1,1,1,0,1,1,1,0,0,0]
-    }, {
-        name: 'Sinus',
-        data: [0,1,1,1,0,1,1,1,0,1,1,1,0,0,1,0,0,1,0,0,1,0,1,1,1,0,1,1,1,1]
-    }, {
-        name: 'Caffeine',
-        data: [0,0,1,0,0,0,0,1,0,0,0,1,1,1,0,1,0,0,0,0,1,1,0,1,1,0,1,1,0,0]
-    }, {
-        name: 'Skipped Meals',
-        data: [1,0,1,1,0,0,0,0,1,0,0,0,0,1,0,1,1,1,0,1,0,0,0,1,1,1,1,1,0,0]
-    }]
-});
+
+function generateCookie(name,value,days=80) {
+    var expires = "";
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days*24*60*60*1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + value + expires + "; path=/";
+}
+
+function readCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+    }
+    return null;
+}
 
 function eraseCookie(name) {
     createCookie(name,"",-1);
@@ -304,5 +1022,7 @@ function logout() {
     eraseCookie('panalgo-user-id');
 }
 </script>
+
+
 
 

@@ -68,31 +68,24 @@
             eraseCookie('panalgo-user-id');
         }
 
-        function create_alg() {
-            var name = $('input[name=name]').val();
-            var code = $('textarea[name=code]').val();
-            var user_id = getID();
-            var postData = {
-                name: name,
-                code: code,
-                user_id: user_id
-            };
-            $.post("http://pain-team.herokuapp.com/algorithm/create",
+        function populate_alg_list() {
+            $.get("http://pain-team.herokuapp.com/algorithms",
                 {
-                    name: name,
-                    code: code,
-                    user_id: user_id
+                    user_id: getID()
                 })
                 .done(function(response){
-                    alert("Algorithm created successfully.");
-                    window.location.replace("dev-edit-alg.html");
+//                    alert(JSON.stringify(response));
+                    var alg_list = response.algorithms;
+                    console.log(alg_list);
+                    alg_list.forEach(function (t) { $('#alg-list').append("<li style='color: white'>" + t.name + "</li>"); });
                 }).fail(function(response) {
-                $('#create-error').html("Error: " + response.responseJSON.error);
+                console.log("Oops, couldn't get list of algorithms for " + getName());
             });
         }
 
         $(document).ready(function() {
             $('.dev-name').html(getName());
+            populate_alg_list();
         });
     </script>
 </head>
@@ -110,9 +103,9 @@
 
             <ul class="nav">
 
-                <li class="active"><a href="dev-create-alg.html">Create/Upload Algorithm</a></li>
-                <li><a href="dev-edit-alg.html">Edit/Manage Algorithms</a></li>
-                <li><a href="dev-get-train.html">Get Training Data</a></li>
+                <li><a href="dev-create-alg-migraine.html">Create/Upload Algorithm</a></li>
+                <li class="active"><a href="dev-edit-alg-migraine.html">Edit/Manage Algorithms</a></li>
+                <li><a href="dev-get-train-migraine.html">Get Training Data</a></li>
 
             </ul>
         </div>
@@ -133,8 +126,18 @@
 
 
                     <ul class="nav navbar-nav navbar-right">
+                     <li>
+                        <a href="dev-create-alg-cerv.html">
+                            <p>Cervical Cancer</p>
+                        </a>
+                    </li>
+                  <li>
+                        <a href="dev-create-alg-migraine.html">
+                            <p><strong>Migraine</strong></p>
+                        </a>
+                    </li>
                         <li>
-                            <a href="dev-dashboard.html" onclick="getName()">
+                            <a href="dev-dashboard-migraine.html" onclick="getName()">
                                 <p class="dev-name">[Insert Developer Name]</p>
                             </a>
                         </li>
@@ -150,20 +153,17 @@
         </nav>
 
 
-        <div class="content">
+        <div class="content" style="height: 100%">
             <div class="container-fluid">
-                <h1>Create / Upload Algorithm</h1>
-            </div>
-            <div id="create-error" style="color:red"></div>
-            <div>
-                <input type="text" name="name" placeholder="Algorithm Name" required="required" id="create-alg" />
-                <textarea type="text" name="code" placeholder="Put the algorithm code here" required="required"></textarea>
-                <br><br>
-                <button class="btn btn-primary btn-block btn-large" onclick="create_alg()">Submit Algorithm</button>
+
+                <h1>Edit / Manage Algorithms</h1>
+
             </div>
 
-            <br><br>
+            <ul id="alg-list">
 
+            </ul>
+            <div style="height: 50%"></div>
             <footer class="footer">
                 <div class="container-fluid">
                     <p class="copyright pull-right">
